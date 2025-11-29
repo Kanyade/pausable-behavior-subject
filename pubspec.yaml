@@ -1,0 +1,20 @@
+name: pausable_behavior_subject
+description: "A package that provides a way to pause and resume event emissions for streams that do not natively support it."
+version: 0.1.0
+homepage: https://github.com/Kanyade/pausable-behaviour-subject
+repository: https://github.com/Kanyade/pausable-behaviour-subject
+
+environment:
+  sdk: ^3.8.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  rxdart: ^0.28.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
