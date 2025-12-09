@@ -24,7 +24,7 @@ class PausableBehaviorSubject<T> {
   bool _isDisposed = false;
 
   /// The stream of values emitted by the underlying stream until this subject is paused.
-  Stream<T> get stream => _subject.stream;
+  ValueStream<T> get stream => _subject.stream;
 
   /// Resume listening to the underlying stream, skipping any values emitted while paused.
   void resume() {

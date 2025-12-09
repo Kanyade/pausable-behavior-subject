@@ -1,3 +1,7 @@
+## 0.1.2
+
+- Return ValueStream from PausableBehaviorSubject.stream
+
 ## 0.1.1
 
 - Fix repository url
