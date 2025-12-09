@@ -11,7 +11,7 @@ class PausableBehaviorSubject<T> {
 
     /// Whether to start listening to the underlying stream immediately.
     bool start = true,
-  }) {
+  }) : _isActive = start {
     if (start) {
       resume();
     }
@@ -22,13 +22,18 @@ class PausableBehaviorSubject<T> {
 
   StreamSubscription<T>? _subscription;
   bool _isDisposed = false;
+  bool _isActive;
 
   /// The stream of values emitted by the underlying stream until this subject is paused.
   ValueStream<T> get stream => _subject.stream;
 
+  /// Whether the subject is currently active (listening to the underlying stream).
+  bool get isActive => _isActive;
+
   /// Resume listening to the underlying stream, skipping any values emitted while paused.
   void resume() {
     if (_isDisposed) return;
+    _isActive = true;
     _subscription ??= _stream.listen(
       _subject.add,
       onError: _subject.addError,
@@ -39,6 +44,7 @@ class PausableBehaviorSubject<T> {
   /// Pause listening to the underlying stream. The last emitted value is retained.
   Future<void> pause() async {
     await _subscription?.cancel();
+    _isActive = false;
     _subscription = null;
   }
 

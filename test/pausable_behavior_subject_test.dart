@@ -5,6 +5,66 @@ import 'package:pausable_behavior_subject/pausable_behavior_subject.dart';
 
 void main() {
   group('PausableBehaviorSubject', () {
+    group('isActive', () {
+      test('isActive is true by default when start=true', () async {
+        final controller = StreamController<int>.broadcast();
+        final subject = PausableBehaviorSubject(controller.stream);
+
+        expect(subject.isActive, isTrue);
+
+        await controller.close();
+        await subject.dispose();
+      });
+
+      test('isActive is false when start=false', () async {
+        final controller = StreamController<int>.broadcast();
+        final subject = PausableBehaviorSubject(controller.stream, start: false);
+
+        expect(subject.isActive, isFalse);
+
+        await controller.close();
+        await subject.dispose();
+      });
+
+      test('isActive toggles to false after pause()', () async {
+        final controller = StreamController<int>.broadcast();
+        final subject = PausableBehaviorSubject(controller.stream);
+
+        expect(subject.isActive, isTrue);
+        await subject.pause();
+        expect(subject.isActive, isFalse);
+
+        await controller.close();
+        await subject.dispose();
+      });
+
+      test('isActive becomes true after resume() when not disposed', () async {
+        final controller = StreamController<int>.broadcast();
+        final subject = PausableBehaviorSubject(controller.stream, start: false);
+
+        expect(subject.isActive, isFalse);
+        subject.resume();
+        expect(subject.isActive, isTrue);
+
+        await controller.close();
+        await subject.dispose();
+      });
+
+      test('after dispose(), isActive stays false and resume() does nothing', () async {
+        final controller = StreamController<int>.broadcast();
+        final subject = PausableBehaviorSubject(controller.stream);
+
+        expect(subject.isActive, isTrue);
+        await subject.dispose();
+        expect(subject.isActive, isFalse);
+
+        // Attempt to resume after dispose should have no effect
+        subject.resume();
+        expect(subject.isActive, isFalse);
+
+        await controller.close();
+      });
+    });
     group('Constructor behavior', () {
       test('start: true (default) - subject starts listening immediately', () async {
         final controller = StreamController<int>.broadcast();

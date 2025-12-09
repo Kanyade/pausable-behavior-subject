@@ -1,6 +1,6 @@
 name: pausable_behavior_subject
 description: "A package that provides a way to pause and resume event emissions for streams that do not natively support it."
-version: 0.1.2
+version: 0.2.0
 homepage: https://github.com/Kanyade/pausable-behavior-subject
 repository: https://github.com/Kanyade/pausable-behavior-subject
 
